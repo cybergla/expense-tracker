@@ -77,50 +77,12 @@
         </form>
     </div>
   </div>
-  
 
-  <script>
-    Date.prototype.toDateInputValue = (function() {
-        var local = new Date(this);
-        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-        return local.toJSON().slice(0,10);
-    });
-    document.getElementById('date').value = new Date().toDateInputValue();
-
-    
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/getBalance");
-    xhr.onreadystatechange = function () {
-        if(xhr.readyState === 4 && xhr.status === 200) {
-            var balances = JSON.parse(xhr.responseText);
-            var tb = parseFloat(balances.tanay.slice(1));
-            var mb = parseFloat(balances.manasa.slice(1));
-            
-            var tanay_bal = document.getElementById('amt_tanay');
-            tanay_bal.innerHTML = balances.tanay;
-            var manasa_bal = document.getElementById('amt_manasa');
-            manasa_bal.innerHTML = balances.manasa;
-
-            if (tb > 0 ){
-                tanay_bal.classList.add("green");
-            }
-            else {
-                tanay_bal.classList.add("red");
-            }
-            if (mb > 0 ){
-                manasa_bal.classList.add("green");
-            }
-            else {
-                manasa_bal.classList.add("red");
-            }
-            console.log(balances);
-        }
-    }
-    xhr.send();
-  </script>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+ 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="javascripts/script.js"></script>
 </body>
 
 </html>
