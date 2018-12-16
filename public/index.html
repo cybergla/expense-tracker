@@ -11,64 +11,71 @@
 
 <body>
   <div class="container">
+    <h1 class="text-center">Expense Tracker</h1>
 
-      <div class="row">
-          <form id="form1" class="col-10 mx-auto form-horizontal" action="/addExpense" method="get">
-              <div class="container">
-                  <h1 class="text-center">Expense Tracker</h1>
-
-                  <div class="form-group row">
-                      <div class="col-md-2"><label for="date" class="control-label" >Date</label></div>
-                      <div class="col-md-10">
-                          <input type="date" id="date" name="date" class="w-100 form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"/> 
-                          <small id="dateWarning" class="form-text text-muted">Should be in YYYY-MM-DD format</small>
-                      </div>
-                      
-                  </div> 
-
-                  <div class="form-group row">
-                      <div class="col-md-2"><label for="expense_name" class="control-label" >Expense Name<span class="text-danger">*</span></label></div>
-                      <div class="col-md-10">
-                          <input type="text" id="expense_name" name="expense_name" class="w-100 form-control" required/> 
-                      </div>
-                  </div>
-
-                  <div class="form-group row">
-                      <div class="col-md-2"><label for="expense_category" class="control-label">Category</label></div>
-                      <div class="col-md-10">
-                      <select id="expense_category" name="expense_category" class="col-md-8 form-control custom-select">
-                          <option value="0">Food</option>
-                          <option value="1">Home Supplies</option>
-                          <option value="2">Groceries</option>
-                          <option value="3">Eating out</option>
-                          <option value="4">Misc</option>
-                      </select>
-                      </div>
-                  </div>
-            
-                  <div class="form-group row">
-                      <div class="col-md-2"><label for="amt_manasa" class="control-label">Manasa</label></div>
-                      <div class="col-md-4 input-group mb-3">
-                          <div class="input-group-prepend">
-                              <span class="input-group-text">$</span>
-                            </div>
-                        <input id="amt_manasa" name="amt_manasa" placeholder="Amount" class="form-control"  min="0.01" step="0.01" max="2500" type="number" >
-                      </div>
-
-                      <div class="col-md-2"><label for="amt_tanay" class="control-label">Tanay</label></div>
-                      <div class="col-md-4 input-group mb-3">
-                          <div class="input-group-prepend">
-                              <span class="input-group-text">$</span>
-                            </div>
-                          <input id="amt_tanay" name="amt_tanay" placeholder="Amount" class="form-control"  min="0.01" step="0.01" max="2500" type="number" >
-                      </div>         
-                  </div>
-                  
-                  <button id="submit" type="submit" class="btn btn-primary"> Submit</button>
+    <div class="col-10 mx-auto alert alert-secondary">
+        <h4>Amount left this week</h4>
+        <p>Tanay: <span id="amt_tanay"></span></p>
+        <p>Manasa: <span id="amt_manasa"></span></p>    
+    </div>
         
-              </div>
-          </form>
-      </div>
+
+    <div class="row">
+        <form id="form1" class="col-10 mx-auto form-horizontal" action="/addExpense" method="get">
+            <div class="container">
+
+                <div class="form-group row">
+                    <div class="col-md-2"><label for="date" class="control-label" >Date</label></div>
+                    <div class="col-md-10">
+                        <input type="date" id="date" name="date" class="w-100 form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"/> 
+                        <small id="dateWarning" class="form-text text-muted">Should be in YYYY-MM-DD format</small>
+                    </div>
+                    
+                </div> 
+
+                <div class="form-group row">
+                    <div class="col-md-2"><label for="expense_name" class="control-label" >Expense Name<span class="text-danger">*</span></label></div>
+                    <div class="col-md-10">
+                        <input type="text" id="expense_name" name="expense_name" class="w-100 form-control" required/> 
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2"><label for="expense_category" class="control-label">Category</label></div>
+                    <div class="col-md-10">
+                    <select id="expense_category" name="expense_category" class="col-md-8 form-control custom-select">
+                        <option value="0">Food</option>
+                        <option value="1">Home Supplies</option>
+                        <option value="2">Groceries</option>
+                        <option value="3">Eating out</option>
+                        <option value="4">Misc</option>
+                    </select>
+                    </div>
+                </div>
+        
+                <div class="form-group row">
+                    <div class="col-md-2"><label for="amt_manasa" class="control-label">Manasa</label></div>
+                    <div class="col-md-4 input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                    <input id="amt_manasa" name="amt_manasa" placeholder="Amount" class="form-control"  min="0.01" step="0.01" max="2500" type="number" >
+                    </div>
+
+                    <div class="col-md-2"><label for="amt_tanay" class="control-label">Tanay</label></div>
+                    <div class="col-md-4 input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input id="amt_tanay" name="amt_tanay" placeholder="Amount" class="form-control"  min="0.01" step="0.01" max="2500" type="number" >
+                    </div>         
+                </div>
+                
+                <button id="submit" type="submit" class="btn btn-primary"> Submit</button>
+    
+            </div>
+        </form>
+    </div>
   </div>
   
 
@@ -79,6 +86,37 @@
         return local.toJSON().slice(0,10);
     });
     document.getElementById('date').value = new Date().toDateInputValue();
+
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/getBalance");
+    xhr.onreadystatechange = function () {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            var balances = JSON.parse(xhr.responseText);
+            var tb = parseFloat(balances.tanay.slice(1));
+            var mb = parseFloat(balances.manasa.slice(1));
+            
+            var tanay_bal = document.getElementById('amt_tanay');
+            tanay_bal.innerHTML = balances.tanay;
+            var manasa_bal = document.getElementById('amt_manasa');
+            manasa_bal.innerHTML = balances.manasa;
+
+            if (tb > 0 ){
+                tanay_bal.classList.add("green");
+            }
+            else {
+                tanay_bal.classList.add("red");
+            }
+            if (mb > 0 ){
+                manasa_bal.classList.add("green");
+            }
+            else {
+                manasa_bal.classList.add("red");
+            }
+            console.log(balances);
+        }
+    }
+    xhr.send();
   </script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

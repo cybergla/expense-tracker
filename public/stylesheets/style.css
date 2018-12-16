@@ -1,5 +1,16 @@
-
+.week-spending{
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+}
 
 h1 {
   text-align:center;
+}
+
+.red{
+  color:red;
+}
+.green {
+  color:green;
 }
