@@ -1,7 +1,10 @@
 var express = require('express');
 var GoogleSpreadsheet = require('google-spreadsheet');
 
-var creds_json = require('./client_secret.json');
+var creds_json = {
+  "client_email": process.env.CLIENT_EMAIL,
+  "private_key": process.env.PRIVATE_KEY
+}
 
 var router = express.Router();
 var doc = new GoogleSpreadsheet('1OsNhMkJAiTZHORppfbMVVLPxGwMZ9wyD78ls5s4OXRU');
