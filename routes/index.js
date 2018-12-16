@@ -1,17 +1,17 @@
 var express = require('express');
 var GoogleSpreadsheet = require('google-spreadsheet');
 
-var creds_json = {
-  "client_email": process.env.CLIENT_EMAIL,
-  "private_key": process.env.PRIVATE_KEY
-}
+// var creds_json = {
+//   "client_email": process.env.CLIENT_EMAIL,
+//   "private_key": process.env.PRIVATE_KEY
+// }
 
-// var creds_json = require('./client_secret.json');
+var creds_json = require('./client_secret.json');
 
 var router = express.Router();
 var doc = new GoogleSpreadsheet('1OsNhMkJAiTZHORppfbMVVLPxGwMZ9wyD78ls5s4OXRU');
 var months    = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-var categories = ["Food", "Home Supplies", "Groceries", "Eating out", "Misc"];
+var categories = ["Food", "Home Supplies", "Groceries", "Eating out", "Transport", "Entertainment", "Misc"];
 
 
 
@@ -53,7 +53,8 @@ router.get('/addExpense', function(req, res, next) {
           "Category":categories[parseInt(req.query.expense_category)],
           "Name":req.query.expense_name,
           "Tanay":req.query.amt_tanay,
-          "Manasa":req.query.amt_manasa
+          "Manasa":req.query.amt_manasa,
+          "Amount":parseFloat(req.query.amt_tanay)+parseFloat(req.query.amt_manasa)
         }
       
         sheet.addRow(row, function(err, row){
