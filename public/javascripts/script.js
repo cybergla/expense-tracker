@@ -35,11 +35,19 @@ xhr.onreadystatechange = function () {
 }
 xhr.send();
 
+var success_box = "<div id=\"success\" class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">    <strong>Success!</strong> Your expense has been added to the sheet.    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" >        <span >&times;</span>    </button></div>";
 
 $("#form1").submit(function (event) {
+    $(".alert").alert('close');
+    $("#submit").prop('disabled', true);
+    $("#submit").html("<i class=\"fa fa-circle-o-notch fa-spin\"</i>");
+
     var params = $("#form1").serialize();
     $.get("/addExpense",params, function (data) {
         console.log(data);
+        $("#submit").prop('disabled', false);
+        $("#submit").html("Submit");
+        $("#success_placeholder").html(success_box);
     })
     event.preventDefault();
 });

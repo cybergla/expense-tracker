@@ -108,6 +108,11 @@ router.get('/getBalance', function(req, res, next) {
   });
 });
 
+router.get('/test', function(req, res, next) {
+  console.log(req.query);
+  res.send("Success");
+});
+
 
 function getWeek(date) {
   if (date <= 7){
