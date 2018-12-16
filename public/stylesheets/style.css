@@ -1,7 +1,9 @@
-.week-spending{
+.balance{
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;
+  border-color: #2d2d2d;
+  margin: 20px;
 }
 
 h1 {
