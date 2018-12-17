@@ -5,6 +5,30 @@ Date.prototype.toDateInputValue = (function() {
 });
 document.getElementById('date').value = new Date().toDateInputValue();
 
+var months    = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var week_to_text = ["1st to 7th", "8th to 14th", "15th to 21st", "22nd to end"];
+var date = new Date();
+var month = months[date.getMonth()-1];
+var text = week_to_text[getWeek(date.getDate())] + ', ' + month;
+$("#week_dates").html(text);
+
+
+function getWeek(date) {
+    if (date <= 7){
+      return 0;
+    }
+    else if (date > 7 && date <= 14){
+      return 1;
+    }
+    else if (date > 14 && date <= 21){
+      return 2;
+    }
+    else if (date > 21 && date <= 31){
+      return 3;
+    }
+  }
+  
+
 function getBalance() {
     var tanay_bal = document.getElementById('amt_tanay');
     var manasa_bal = document.getElementById('amt_manasa');
