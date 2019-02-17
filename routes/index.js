@@ -6,8 +6,6 @@ var creds_json = {
   "private_key": process.env.PRIVATE_KEY
 }
 
-// var creds_json = require('./client_secret.json');
-
 var router = express.Router();
 var doc = new GoogleSpreadsheet('1OsNhMkJAiTZHORppfbMVVLPxGwMZ9wyD78ls5s4OXRU');
 var months    = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -67,6 +65,7 @@ router.get('/addExpense', function(req, res, next) {
 });
 
 router.get('/getBalance', function(req, res, next) {
+  // Log into Google Sheets
   doc.useServiceAccountAuth(creds_json, function (err) {
     if (err) {
       console.log(err);
@@ -74,36 +73,44 @@ router.get('/getBalance', function(req, res, next) {
       return;
     }
 
+    // Get worksheet info
     doc.getInfo(function(err, info) {
+
+      // Find Sheet with current month's name
       for (let i = 0; i< info.worksheets.length; i++) {
         var sheet = info.worksheets[i];
         
         var month = new Date().getMonth();
         month = months[month];
-
+        
+        // Found sheet
         if (sheet.title === month){
-          // console.log(month);
-          // console.log(sheet.title);
-          break;
+          // Get week num and rows to access
+          var date = new Date().getDate();
+          var week_num = getWeek(date);
+          var rows = week_to_row[week_num];
+
+          // Get cells with balance
+          sheet.getCells({
+              'min-row':rows[0],
+              'max-row':rows[1],
+              'min-col':12,
+              'max-col':12
+            }, function (err, cells) {
+              res.send({
+                "tanay":cells[0].value,
+                "manasa":cells[1].value
+              });
+          });
+          return;
         }
       }
 
-      var date = new Date().getDate();
-      var week_num = getWeek(date);
-      var rows = week_to_row[week_num];
-
-      sheet.getCells({
-          'min-row':rows[0],
-          'max-row':rows[1],
-          'min-col':12,
-          'max-col':12
-        }, function (err, cells) {
-          res.send({
-            "tanay":cells[0].value,
-            "manasa":cells[1].value
-          });
+      // If not found
+      res.send({
+        "tanay":"N/A",
+        "manasa":"N/A"
       });
-
 
     });
   });
