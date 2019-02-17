@@ -5,12 +5,17 @@ Date.prototype.toDateInputValue = (function() {
 });
 document.getElementById('date').value = new Date().toDateInputValue();
 
-var months    = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
 var week_to_text = ["1st to 7th", "8th to 14th", "15th to 21st", "22nd to end"];
 var date = new Date();
-var month = months[date.getMonth()-1];
+var month = getMonthName(date.getMonth());
 var text = week_to_text[getWeek(date.getDate())] + ', ' + month;
 $("#week_dates").html(text);
+
+function getMonthName(m){
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return months[m];
+}
 
 
 function getWeek(date) {
@@ -66,6 +71,7 @@ function getBalance() {
 
 getBalance();
 var success_box = "<div id=\"success\" class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">    <strong>Success!</strong> Your expense has been added to the sheet.    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" >        <span >&times;</span>    </button></div>";
+var error_box = "<div id=\"success\" class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">    <strong>Error.</strong> Your expense could not be added to the sheet.    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" >        <span >&times;</span>    </button></div>";
 
 $("#form1").submit(function (event) {
     $(".alert").alert('close');
@@ -76,10 +82,19 @@ $("#form1").submit(function (event) {
     var params = $("#form1").serialize();
     $.get("/addExpense",params, function (data) {
         console.log(data);
-        getBalance();
-        $("#submit").prop('disabled', false);
-        $("#submit").html("Submit");
-        $("#success_placeholder").html(success_box);
+        if (data == "Success!"){
+            getBalance();
+            $("#submit").prop('disabled', false);
+            $("#submit").html("Submit");
+            $("#success_placeholder").html(success_box);
+        }
+        else {
+            getBalance();
+            $("#submit").prop('disabled', false);
+            $("#submit").html("Submit");
+            $("#success_placeholder").html(error_box);
+        }
+        
     })
     event.preventDefault();
 });

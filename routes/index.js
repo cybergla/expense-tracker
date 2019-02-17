@@ -34,32 +34,36 @@ router.get('/addExpense', function(req, res, next) {
         month = months[month];
 
         if (sheet.title === month){
-          // console.log(month);
-          // console.log(sheet.title);
-          break;
+          sheet.getRows({'limit':3}, function (err, rows) {
+            //var date = new Date(Date.now()).toLocaleDateString('en-US');
+            console.log(req.query);
+            var parts = req.query.date.split('-');
+            var date = new Date(parts[0], parts[1] - 1, parts[2]);
+            date = date.toLocaleDateString('en-US');
+            var row = {
+              "Date":date,
+              "Category":categories[parseInt(req.query.expense_category)],
+              "Name":req.query.expense_name,
+              "Tanay":req.query.amt_tanay,
+              "Manasa":req.query.amt_manasa,
+              "Amount":parseFloat(req.query.amt_tanay)+parseFloat(req.query.amt_manasa)
+            }
+          
+            sheet.addRow(row, function(err, row){
+              if(err) {
+                console.log(err);
+                
+              }
+              res.send("Success!");
+            });
+          });
+          return;
         }
       }
 
-      sheet.getRows({'limit':3}, function (err, rows) {
-        //var date = new Date(Date.now()).toLocaleDateString('en-US');
-        console.log(req.query);
-        var parts = req.query.date.split('-');
-        var date = new Date(parts[0], parts[1] - 1, parts[2]);
-        date = date.toLocaleDateString('en-US');
-        var row = {
-          "Date":date,
-          "Category":categories[parseInt(req.query.expense_category)],
-          "Name":req.query.expense_name,
-          "Tanay":req.query.amt_tanay,
-          "Manasa":req.query.amt_manasa,
-          "Amount":parseFloat(req.query.amt_tanay)+parseFloat(req.query.amt_manasa)
-        }
+      // Sheet not found
+      res.send("Error: Sheet not found")
       
-        sheet.addRow(row, function(err, row){
-          if(err) console.log(err);
-          res.send("Success!");
-        });
-      });
     });
   });
 });
